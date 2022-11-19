@@ -9,28 +9,23 @@ const API_URL = process.env.REACT_APP_API_KEY
     const App = () => {
         const [movies ,setMovies] = useState([]);
         const [searchTerm, setSearchTerm] = useState('')
-    const searchMovies = async (title) => {
-        const response = await fetch(`${API_URL}&s=${title}`);
-        const data = await response.json();
-        setMovies(data.Search);
-    }
-
-    const handleKeyDown = event => {
-        console.log('User pressed: ', event.key);
-    
-        // console.log(message);
-    
-        if (event.key === 'Enter' && searchTerm.length !== 0) {
-          // 👇️ your logic here
-          searchMovies(searchTerm)
-          console.log('Enter key pressed ✅');
+        const searchMovies = async (title) => {
+            const response = await fetch(`${API_URL}&s=${title}`);
+            const data = await response.json();
+            setMovies(data.Search);
         }
-      };
-    useEffect(() => {
-        searchMovies({API_URL});
-    }, [])
+
+        const handleKeyDown = event => {
+            if (event.key === 'Enter' && searchTerm.length !== 0) {
+            searchMovies(searchTerm)
+            }
+        };
+    
+        useEffect(() => {
+            searchMovies({API_URL});
+        }, [])
+    
     return(
-        
         <div className="app">
             <h1>MovieLand</h1>
             <div className="search">
@@ -48,16 +43,16 @@ const API_URL = process.env.REACT_APP_API_KEY
             </div>
 
             {movies?.length > 0 ? (
-        <div className="container">
-          {movies.map((movie) => (
-            <MovieCard movie={movie} />
-          ))}
-        </div>
-      ) : (
-        <div className="empty">
-          <h2>No movies found</h2>
-        </div>
-      )}
+            <div className="container">
+                {movies.map((movie) => (
+                <MovieCard movie={movie} />
+                ))}
+            </div>
+            ) : (
+            <div className="empty">
+                <h2>No movies found</h2>
+            </div>
+            )}
         </div>
     );
  }
